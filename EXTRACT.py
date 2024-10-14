@@ -7,15 +7,26 @@ import threading
 import time
 
 
-db_lock = threading.Lock()
+
 base_url = 'https://api.eia.gov/v2/'
 tables = ['co2_emi_api','eng_gen_api','Ren_cap_api']
 apis = {
-    # "co2_emi_api": f"{base_url}co2-emissions/co2-emissions-aggregates/data/?frequency=annual",
+    "co2_emi_api": f"{base_url}co2-emissions/co2-emissions-aggregates/data/?frequency=annual",
     "eng_gen_api": f"{base_url}electricity/rto/daily-fuel-type-data/data/?frequency=daily",
-    # "Ren_cap_api": f"{base_url}international/data/?frequency=annual&facets[activityId][]=7&facets[productId][]=116&facets[productId][]=29&facets[productId][]=33&facets[productId][]=37&facets[countryRegionId][]=USA"
-    #renewable : &facets[activityId][]=7&facets[productId][]=116&facets[productId][]=29&facets[productId][]=33&facets[productId][]=37&facets[countryRegionId][]=USA
+    "Ren_cap_api": f"{base_url}international/data/?frequency=annual&facets[activityId][]=7&facets[productId][]=116&facets[productId][]=29&facets[productId][]=33&facets[productId][]=37&facets[countryRegionId][]=USA"
 }
+
+
+db_params = {
+'dbname': secret.DB,
+'user': secret.POST_USER,
+'password': secret.POST_PASS,
+'host': secret.HOST,
+'port': secret.PORT
+}
+
+db_lock = threading.Lock()
+
 def schema_co2_emission(df):
     df = df[['period','stateId','fuelId','value']].rename(columns={'value': 'CO2_Emission_MMT'})
     return df
@@ -88,16 +99,6 @@ for key, value in apis.items():
     json_data = response.json()
     total_record = int(json_data['response']['total'])
 
-
-
-
-    db_params = {
-    'dbname': secret.DB,
-    'user': secret.POST_USER,
-    'password': secret.POST_PASS,
-    'host': secret.HOST,
-    'port': secret.PORT
-    }
     
     engine = create_engine(f"postgresql+psycopg2://{db_params['user']}:{db_params['password']}@{db_params['host']}:{db_params['port']}/{db_params['dbname']}")
 
