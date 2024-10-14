@@ -6,8 +6,9 @@ import requests
 from sqlalchemy import create_engine
 import pandas as pd
 import hvac
-
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
+import threading
 
 
 def schema_co2_emission(df):
@@ -48,7 +49,52 @@ def WAEF_cal(eng_gen):
     oil_ef = round((sum(eng_gen[eng_gen['fueltype']=='OIL']['generation_MWh'])/non_renew_mwh)*0.93,4)
     return col_ef+ng_ef+oil_ef
 
+def create_chunks(total):
+    chunks = [0]
+    chunk_size = 1000000 
+    for i in range(chunk_size, total + 1, chunk_size):
+        chunks.append(i)
+    if total not in chunks:
+        chunks.append(total)
+        
+    return chunks
 
+
+def thread_executor(offsets,value,params,key,db_lock=threading.Lock()):
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        future_to_offset = {}
+        
+        for offset in offsets:
+            params['offset'] = offset
+            future = executor.submit(requests.get, value, params)
+            future_to_offset[future] = offset
+
+        for future in as_completed(future_to_offset):
+            offset = future_to_offset[future]
+            response = future.result()
+
+
+            if response.status_code == 200:
+                data = response.json()
+                df = data['response']['data']
+                df = pd.DataFrame(df)
+                df['value'] = pd.to_numeric(df['value'], errors='coerce')  
+
+                if key == tables[0]:
+                    df = schema_co2_emission(df)
+                if key == tables[1]:
+                    df = schema_energy_generation(df)
+                if key == tables[2]:
+                    df = schema_renewable_capcity(df)
+                with db_lock:
+                    df.to_sql(key, engine, if_exists='append', index=False)
+                    time.sleep(0.5)
+                print(f"Data loaded successfully for {key} with offset {offset}")
+
+            else:
+                df = pd.DataFrame({'table': [key], 'offset': [offset], 'error': [response.status_code]})
+                df.to_sql('Failed_import_api', engine, if_exists='append', index=False)
+                print(f"Failed to retrieve data for {key}. At Offset {offset} with Status code: {response.status_code}")
 
 
 def EXTRACT():
@@ -74,29 +120,35 @@ def EXTRACT():
         json_data = response.json()
         total_record = int(json_data['response']['total'])
 
-        no_rec = 0
-        if total_record>20001:
-            no_rec = 20001
-        else:
-            no_rec = total_record
 
-        while offset < no_rec: #total_record:
-            params['offset'] = offset
-            response = requests.get(value, params=params)
-            offset += 5000
-            data = response.json()
-            df = data['response']['data']
-            df = pd.DataFrame(df)
-            df['value'] = pd.to_numeric(df['value'],errors='coerce')
-            if key == tables[0]:
-                df = schema_co2_emission(df)
-            if key == tables[1]:
-                df = schema_energy_generation(df)
-            if key == tables[2]:
-                df = schema_renewable_capcity(df) 
-            df.to_sql(key , engine, if_exists='append', index=False)
+        list_praser = create_chunks(total_record)
+        for i in range(len(list_praser)-1):
+            offsets = range(list_praser[i], list_praser[i+1], 5000)
+            thread_executor(offsets,value,params,key)
 
-            print(f"Data loaded successfully for {key} with offset {offset}:\n")
+
+        # no_rec = 0
+        # if total_record>20001:
+        #     no_rec = 20001
+        # else:
+        #     no_rec = total_record
+
+        # while offset < no_rec: #total_record:
+        #     params['offset'] = offset
+        #     response = requests.get(value, params=params)
+        #     offset += 5000
+        #     data = response.json()
+        #     df = data['response']['data']
+        #     df = pd.DataFrame(df)
+        #     df['value'] = pd.to_numeric(df['value'],errors='coerce')
+        #     if key == tables[0]:
+        #         df = schema_co2_emission(df)
+        #     if key == tables[1]:
+        #         df = schema_energy_generation(df)
+        #     if key == tables[2]:
+        #         df = schema_renewable_capcity(df) 
+        #     df.to_sql(key , engine, if_exists='append', index=False
+        #     print(f"Data loaded successfully for {key} with offset {offset}:\n")
 
 
 
@@ -147,9 +199,10 @@ with DAG(
 
     vault_address = Variable.get("vault_address")
     vault_token = Variable.get("vault_token")
+    secret_path = Variable.get("secret_path")
 
     client = hvac.Client(url=vault_address, token=vault_token)
-    read_secret_result  = client.read('secret/data/cred')
+    read_secret_result  = client.read(secret_path)
     location = read_secret_result['data']['data']
 
     API_KEY=location['API_KEY']
