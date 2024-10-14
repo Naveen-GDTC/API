@@ -101,21 +101,11 @@ for key, value in apis.items():
     
     engine = create_engine(f"postgresql+psycopg2://{db_params['user']}:{db_params['password']}@{db_params['host']}:{db_params['port']}/{db_params['dbname']}")
 
-    if total_record>1000000:
-        list_praser = create_chunks(total_record)
-        for i in range(len(list_praser)-1):
-           offsets = range(list_praser[i], list_praser[i+1], 5000)
-           thread_executor(offsets)
-    else:
-        offsets = range(0, total_record, 5000)
+
+    list_praser = create_chunks(total_record)
+    for i in range(len(list_praser)-1):
+        offsets = range(list_praser[i], list_praser[i+1], 5000)
         thread_executor(offsets)
-
-
-
-
-
-
-
 
 
     # while offset < total_record: #no_rec: #
