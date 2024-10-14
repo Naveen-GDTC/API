@@ -127,33 +127,6 @@ def EXTRACT():
             thread_executor(offsets,value,params,key)
 
 
-        # no_rec = 0
-        # if total_record>20001:
-        #     no_rec = 20001
-        # else:
-        #     no_rec = total_record
-
-        # while offset < no_rec: #total_record:
-        #     params['offset'] = offset
-        #     response = requests.get(value, params=params)
-        #     offset += 5000
-        #     data = response.json()
-        #     df = data['response']['data']
-        #     df = pd.DataFrame(df)
-        #     df['value'] = pd.to_numeric(df['value'],errors='coerce')
-        #     if key == tables[0]:
-        #         df = schema_co2_emission(df)
-        #     if key == tables[1]:
-        #         df = schema_energy_generation(df)
-        #     if key == tables[2]:
-        #         df = schema_renewable_capcity(df) 
-        #     df.to_sql(key , engine, if_exists='append', index=False
-        #     print(f"Data loaded successfully for {key} with offset {offset}:\n")
-
-
-
-
-
 def TRANSFORM():
     co2_emi = base_transform(tables[0])
     eng_gen = base_transform(tables[1])
