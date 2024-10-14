@@ -1,0 +1,42 @@
+[2024-10-14T06:46:17.973+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-14T06:46:18.018+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: PIPELINE.EXTRACT manual__2024-10-14T06:46:05.546846+00:00 [queued]>
+[2024-10-14T06:46:18.041+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: PIPELINE.EXTRACT manual__2024-10-14T06:46:05.546846+00:00 [queued]>
+[2024-10-14T06:46:18.042+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-14T06:46:18.077+0000] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): EXTRACT> on 2024-10-14 06:46:05.546846+00:00
+[2024-10-14T06:46:18.221+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'PIPELINE', 'EXTRACT', 'manual__2024-10-14T06:46:05.546846+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dag.py', '--cfg-path', '/tmp/tmph645jkxu']
+[2024-10-14T06:46:18.231+0000] {standard_task_runner.py:105} INFO - Job 7: Subtask EXTRACT
+[2024-10-14T06:46:18.211+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=299) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-14T06:46:18.239+0000] {standard_task_runner.py:72} INFO - Started process 301 to run task
+[2024-10-14T06:46:18.680+0000] {task_command.py:467} INFO - Running <TaskInstance: PIPELINE.EXTRACT manual__2024-10-14T06:46:05.546846+00:00 [running]> on host a9d59758bb55
+[2024-10-14T06:46:18.952+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='PIPELINE' AIRFLOW_CTX_TASK_ID='EXTRACT' AIRFLOW_CTX_EXECUTION_DATE='2024-10-14T06:46:05.546846+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-10-14T06:46:05.546846+00:00'
+[2024-10-14T06:46:18.963+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-10-14T06:46:18.965+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-10-14T06:46:18.967+0000] {logging_mixin.py:190} INFO - Current task name:EXTRACT state:running start_date:2024-10-14 06:46:18.020142+00:00
+[2024-10-14T06:46:18.968+0000] {logging_mixin.py:190} INFO - Dag name:PIPELINE and current dag run status:running
+[2024-10-14T06:46:18.969+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-14T06:46:18.975+0000] {logging_mixin.py:190} INFO - co2_emi_api
+[2024-10-14T06:46:24.373+0000] {logging_mixin.py:190} INFO - Data loaded successfully for co2_emi_api with offset 5000:
+[2024-10-14T06:46:26.825+0000] {logging_mixin.py:190} INFO - Data loaded successfully for co2_emi_api with offset 10000:
+[2024-10-14T06:46:29.336+0000] {logging_mixin.py:190} INFO - Data loaded successfully for co2_emi_api with offset 15000:
+[2024-10-14T06:46:32.643+0000] {logging_mixin.py:190} INFO - Data loaded successfully for co2_emi_api with offset 20000:
+[2024-10-14T06:46:35.017+0000] {logging_mixin.py:190} INFO - Data loaded successfully for co2_emi_api with offset 25000:
+[2024-10-14T06:46:35.019+0000] {logging_mixin.py:190} INFO - eng_gen_api
+[2024-10-14T06:46:40.102+0000] {logging_mixin.py:190} INFO - Data loaded successfully for eng_gen_api with offset 5000:
+[2024-10-14T06:46:42.790+0000] {logging_mixin.py:190} INFO - Data loaded successfully for eng_gen_api with offset 10000:
+[2024-10-14T06:46:47.389+0000] {logging_mixin.py:190} INFO - Data loaded successfully for eng_gen_api with offset 15000:
+[2024-10-14T06:46:49.970+0000] {logging_mixin.py:190} INFO - Data loaded successfully for eng_gen_api with offset 20000:
+[2024-10-14T06:46:52.549+0000] {logging_mixin.py:190} INFO - Data loaded successfully for eng_gen_api with offset 25000:
+[2024-10-14T06:46:52.550+0000] {logging_mixin.py:190} INFO - Ren_cap_api
+[2024-10-14T06:46:56.070+0000] {logging_mixin.py:190} INFO - Data loaded successfully for Ren_cap_api with offset 5000:
+[2024-10-14T06:46:56.072+0000] {python.py:240} INFO - Done. Returned value was: None
+[2024-10-14T06:46:56.099+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-14T06:46:56.101+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=PIPELINE, task_id=EXTRACT, run_id=manual__2024-10-14T06:46:05.546846+00:00, execution_date=20241014T064605, start_date=20241014T064618, end_date=20241014T064656
+[2024-10-14T06:46:56.130+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2024-10-14T06:46:56.131+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2024-10-14T06:46:56.132+0000] {logging_mixin.py:190} INFO - Dag name:PIPELINE queued_at:2024-10-14 06:46:05.754606+00:00
+[2024-10-14T06:46:56.134+0000] {logging_mixin.py:190} INFO - Task hostname:a9d59758bb55 operator:PythonOperator
+[2024-10-14T06:46:56.203+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-10-14T06:46:56.247+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-10-14T06:46:56.255+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

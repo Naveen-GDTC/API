@@ -1,0 +1,42 @@
+[2024-10-07T10:34:55.418+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-07T10:34:55.455+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: TRANSFORM_DATA.TRANSFORM manual__2024-10-07T10:34:35.247789+00:00 [queued]>
+[2024-10-07T10:34:55.486+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: TRANSFORM_DATA.TRANSFORM manual__2024-10-07T10:34:35.247789+00:00 [queued]>
+[2024-10-07T10:34:55.488+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-07T10:34:55.516+0000] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): TRANSFORM> on 2024-10-07 10:34:35.247789+00:00
+[2024-10-07T10:34:55.556+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'TRANSFORM_DATA', 'TRANSFORM', 'manual__2024-10-07T10:34:35.247789+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/trnaform_dag.py', '--cfg-path', '/tmp/tmpbzzp7nm0']
+[2024-10-07T10:34:55.563+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=751) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-07T10:34:55.569+0000] {standard_task_runner.py:105} INFO - Job 5: Subtask TRANSFORM
+[2024-10-07T10:34:55.570+0000] {standard_task_runner.py:72} INFO - Started process 753 to run task
+[2024-10-07T10:34:55.650+0000] {task_command.py:467} INFO - Running <TaskInstance: TRANSFORM_DATA.TRANSFORM manual__2024-10-07T10:34:35.247789+00:00 [running]> on host 0d429fbd9f19
+[2024-10-07T10:34:55.751+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='TRANSFORM_DATA' AIRFLOW_CTX_TASK_ID='TRANSFORM' AIRFLOW_CTX_EXECUTION_DATE='2024-10-07T10:34:35.247789+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-10-07T10:34:35.247789+00:00'
+[2024-10-07T10:34:55.755+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-10-07T10:34:55.755+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-10-07T10:34:55.756+0000] {logging_mixin.py:190} INFO - Current task name:TRANSFORM state:running start_date:2024-10-07 10:34:55.457015+00:00
+[2024-10-07T10:34:55.757+0000] {logging_mixin.py:190} INFO - Dag name:TRANSFORM_DATA and current dag run status:running
+[2024-10-07T10:34:55.758+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-07T10:35:00.755+0000] {logging_mixin.py:190} INFO -            period respondent  ... co2_emission_tons co2_reduction
+0      2024-10-04       AECI  ...          34311.36        0.0000
+1      2024-10-04       AECI  ...          34311.36        0.0000
+2      2024-10-04       AECI  ...           5656.14        0.0000
+3      2024-10-04       AECI  ...           5656.14        0.0000
+4      2024-10-04       AECI  ...              0.00     4473.8768
+...           ...        ...  ...               ...           ...
+24995  2024-09-21       WALC  ...              0.00      500.8816
+24996  2024-09-21       WAUW  ...              0.00      669.9952
+24997  2024-09-21       WAUW  ...              0.00      665.8848
+24998  2024-09-21       WAUW  ...              0.00      667.6464
+24999  2024-09-21       WAUW  ...              0.00      668.2336
+
+[25000 rows x 11 columns]
+[2024-10-07T10:35:00.786+0000] {python.py:240} INFO - Done. Returned value was: None
+[2024-10-07T10:35:00.803+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-07T10:35:00.804+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=TRANSFORM_DATA, task_id=TRANSFORM, run_id=manual__2024-10-07T10:34:35.247789+00:00, execution_date=20241007T103435, start_date=20241007T103455, end_date=20241007T103500
+[2024-10-07T10:35:00.827+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2024-10-07T10:35:00.828+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2024-10-07T10:35:00.829+0000] {logging_mixin.py:190} INFO - Dag name:TRANSFORM_DATA queued_at:2024-10-07 10:34:35.911415+00:00
+[2024-10-07T10:35:00.830+0000] {logging_mixin.py:190} INFO - Task hostname:0d429fbd9f19 operator:PythonOperator
+[2024-10-07T10:35:00.894+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-10-07T10:35:00.959+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-10-07T10:35:00.967+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

@@ -1,0 +1,28 @@
+[2024-10-08T04:42:03.132+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-08T04:42:03.157+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: PIPELINE.TRANSFORM manual__2024-10-08T04:40:22.472082+00:00 [queued]>
+[2024-10-08T04:42:03.173+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: PIPELINE.TRANSFORM manual__2024-10-08T04:40:22.472082+00:00 [queued]>
+[2024-10-08T04:42:03.176+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-08T04:42:03.197+0000] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): TRANSFORM> on 2024-10-08 04:40:22.472082+00:00
+[2024-10-08T04:42:03.213+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=244) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-08T04:42:03.215+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'PIPELINE', 'TRANSFORM', 'manual__2024-10-08T04:40:22.472082+00:00', '--job-id', '9', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dag.py', '--cfg-path', '/tmp/tmpp6fpspmv']
+[2024-10-08T04:42:03.216+0000] {standard_task_runner.py:72} INFO - Started process 253 to run task
+[2024-10-08T04:42:03.217+0000] {standard_task_runner.py:105} INFO - Job 9: Subtask TRANSFORM
+[2024-10-08T04:42:03.359+0000] {task_command.py:467} INFO - Running <TaskInstance: PIPELINE.TRANSFORM manual__2024-10-08T04:40:22.472082+00:00 [running]> on host 379c76380f61
+[2024-10-08T04:42:03.518+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='PIPELINE' AIRFLOW_CTX_TASK_ID='TRANSFORM' AIRFLOW_CTX_EXECUTION_DATE='2024-10-08T04:40:22.472082+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-10-08T04:40:22.472082+00:00'
+[2024-10-08T04:42:03.522+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-10-08T04:42:03.523+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-10-08T04:42:03.524+0000] {logging_mixin.py:190} INFO - Current task name:TRANSFORM state:running start_date:2024-10-08 04:42:03.158137+00:00
+[2024-10-08T04:42:03.525+0000] {logging_mixin.py:190} INFO - Dag name:PIPELINE and current dag run status:running
+[2024-10-08T04:42:03.526+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-08T04:42:09.148+0000] {python.py:240} INFO - Done. Returned value was: None
+[2024-10-08T04:42:09.162+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-08T04:42:09.164+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=PIPELINE, task_id=TRANSFORM, run_id=manual__2024-10-08T04:40:22.472082+00:00, execution_date=20241008T044022, start_date=20241008T044203, end_date=20241008T044209
+[2024-10-08T04:42:09.183+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2024-10-08T04:42:09.185+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2024-10-08T04:42:09.186+0000] {logging_mixin.py:190} INFO - Dag name:PIPELINE queued_at:2024-10-08 04:40:23.195528+00:00
+[2024-10-08T04:42:09.187+0000] {logging_mixin.py:190} INFO - Task hostname:379c76380f61 operator:PythonOperator
+[2024-10-08T04:42:09.259+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-10-08T04:42:09.286+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-10-08T04:42:09.292+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

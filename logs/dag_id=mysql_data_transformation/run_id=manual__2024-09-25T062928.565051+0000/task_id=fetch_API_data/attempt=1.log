@@ -1,0 +1,37 @@
+[2024-09-25T06:29:45.566+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-09-25T06:29:45.601+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: mysql_data_transformation.fetch_API_data manual__2024-09-25T06:29:28.565051+00:00 [queued]>
+[2024-09-25T06:29:45.615+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: mysql_data_transformation.fetch_API_data manual__2024-09-25T06:29:28.565051+00:00 [queued]>
+[2024-09-25T06:29:45.616+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-09-25T06:29:45.642+0000] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): fetch_API_data> on 2024-09-25 06:29:28.565051+00:00
+[2024-09-25T06:29:45.671+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=109) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-09-25T06:29:45.679+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'mysql_data_transformation', 'fetch_API_data', 'manual__2024-09-25T06:29:28.565051+00:00', '--job-id', '39', '--raw', '--subdir', 'DAGS_FOLDER/mysql_transform.py', '--cfg-path', '/tmp/tmpvjg3l0n3']
+[2024-09-25T06:29:45.684+0000] {standard_task_runner.py:72} INFO - Started process 111 to run task
+[2024-09-25T06:29:45.685+0000] {standard_task_runner.py:105} INFO - Job 39: Subtask fetch_API_data
+[2024-09-25T06:29:45.817+0000] {task_command.py:467} INFO - Running <TaskInstance: mysql_data_transformation.fetch_API_data manual__2024-09-25T06:29:28.565051+00:00 [running]> on host 8d2dc09437ab
+[2024-09-25T06:29:46.098+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='mysql_data_transformation' AIRFLOW_CTX_TASK_ID='fetch_API_data' AIRFLOW_CTX_EXECUTION_DATE='2024-09-25T06:29:28.565051+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-09-25T06:29:28.565051+00:00'
+[2024-09-25T06:29:46.104+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-09-25T06:29:46.105+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-09-25T06:29:46.106+0000] {logging_mixin.py:190} INFO - Current task name:fetch_API_data state:running start_date:2024-09-25 06:29:45.602291+00:00
+[2024-09-25T06:29:46.108+0000] {logging_mixin.py:190} INFO - Dag name:mysql_data_transformation and current dag run status:running
+[2024-09-25T06:29:46.109+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-09-25T06:29:52.146+0000] {logging_mixin.py:190} INFO - Data retrieved successfully:
+[2024-09-25T06:29:52.262+0000] {logging_mixin.py:190} INFO -           period respondent  ...  value    value-units
+0  2024-09-25T07        AVA  ...   1175  megawatthours
+1  2024-09-25T07       AZPS  ...   4278  megawatthours
+2  2024-09-25T07       BANC  ...   2268  megawatthours
+3  2024-09-25T07       BPAT  ...   5623  megawatthours
+4  2024-09-25T07        CAL  ...  33905  megawatthours
+
+[5 rows x 7 columns]
+[2024-09-25T06:29:52.363+0000] {python.py:240} INFO - Done. Returned value was: None
+[2024-09-25T06:29:52.381+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-09-25T06:29:52.382+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=mysql_data_transformation, task_id=fetch_API_data, run_id=manual__2024-09-25T06:29:28.565051+00:00, execution_date=20240925T062928, start_date=20240925T062945, end_date=20240925T062952
+[2024-09-25T06:29:52.409+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2024-09-25T06:29:52.410+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2024-09-25T06:29:52.411+0000] {logging_mixin.py:190} INFO - Dag name:mysql_data_transformation queued_at:2024-09-25 06:29:28.697211+00:00
+[2024-09-25T06:29:52.412+0000] {logging_mixin.py:190} INFO - Task hostname:8d2dc09437ab operator:PythonOperator
+[2024-09-25T06:29:52.466+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-09-25T06:29:52.502+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2024-09-25T06:29:52.507+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

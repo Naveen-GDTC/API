@@ -1,0 +1,255 @@
+[2024-10-14T06:47:03.236+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-14T06:47:03.263+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: PIPELINE.TRANSFORM manual__2024-10-14T06:46:05.546846+00:00 [queued]>
+[2024-10-14T06:47:03.277+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: PIPELINE.TRANSFORM manual__2024-10-14T06:46:05.546846+00:00 [queued]>
+[2024-10-14T06:47:03.278+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-14T06:47:03.302+0000] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): TRANSFORM> on 2024-10-14 06:46:05.546846+00:00
+[2024-10-14T06:47:03.316+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=310) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-14T06:47:03.318+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'PIPELINE', 'TRANSFORM', 'manual__2024-10-14T06:46:05.546846+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dag.py', '--cfg-path', '/tmp/tmpfnf_clhc']
+[2024-10-14T06:47:03.320+0000] {standard_task_runner.py:105} INFO - Job 8: Subtask TRANSFORM
+[2024-10-14T06:47:03.320+0000] {standard_task_runner.py:72} INFO - Started process 319 to run task
+[2024-10-14T06:47:03.390+0000] {task_command.py:467} INFO - Running <TaskInstance: PIPELINE.TRANSFORM manual__2024-10-14T06:46:05.546846+00:00 [running]> on host a9d59758bb55
+[2024-10-14T06:47:03.560+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='PIPELINE' AIRFLOW_CTX_TASK_ID='TRANSFORM' AIRFLOW_CTX_EXECUTION_DATE='2024-10-14T06:46:05.546846+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-10-14T06:46:05.546846+00:00'
+[2024-10-14T06:47:03.563+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-10-14T06:47:03.564+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-10-14T06:47:03.565+0000] {logging_mixin.py:190} INFO - Current task name:TRANSFORM state:running start_date:2024-10-14 06:47:03.265078+00:00
+[2024-10-14T06:47:03.566+0000] {logging_mixin.py:190} INFO - Dag name:PIPELINE and current dag run status:running
+[2024-10-14T06:47:03.567+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-14T06:47:08.830+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.UndefinedColumn: column "generation_MWh" of relation "eng_gen_2024" does not exist
+LINE 1: ... INTO eng_gen_2024 (period, fueltype, respondent, "generatio...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/pipeline_dag.py", line 129, in TRANSFORM
+    df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/util/_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/generic.py", line 3008, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 788, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1958, in to_sql
+    total_inserted = sql_engine.insert_records(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1507, in insert_records
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1498, in insert_records
+    return table.insert(chunksize=chunksize, method=method)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1059, in insert
+    num_inserted = exec_insert(conn, keys, chunk_iter)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 951, in _execute_insert
+    result = conn.execute(self.table.insert(), data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "generation_MWh" of relation "eng_gen_2024" does not exist
+LINE 1: ... INTO eng_gen_2024 (period, fueltype, respondent, "generatio...
+                                                             ^
+
+[SQL: INSERT INTO eng_gen_2024 (period, fueltype, respondent, "generation_MWh", co2_emission_tons, co2_reduction_tons) VALUES (%(period)s, %(fueltype)s, %(respondent)s, %(generation_MWh)s, %(co2_emission_tons)s, %(co2_reduction_tons)s)]
+[parameters: ({'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'FLA', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'GVL', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'US48', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'US48', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}  ... displaying 10 of 15255 total bound parameter sets ...  {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'OIL', 'respondent': 'NWMT', 'generation_MWh': 561, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'SUN', 'respondent': 'NWMT', 'generation_MWh': 1388, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 815.3111999999999})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2024-10-14T06:47:08.915+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2024-10-14T06:47:08.916+0000] {logging_mixin.py:190} INFO - Task start:2024-10-14 06:47:03.265078+00:00 end:2024-10-14 06:47:08.914638+00:00 duration:5.64956
+[2024-10-14T06:47:08.918+0000] {logging_mixin.py:190} INFO - Task:<Task(PythonOperator): TRANSFORM> dag:<DAG: PIPELINE> dagrun:<DagRun PIPELINE @ 2024-10-14 06:46:05.546846+00:00: manual__2024-10-14T06:46:05.546846+00:00, state:running, queued_at: 2024-10-14 06:46:05.754606+00:00. externally triggered: True>
+[2024-10-14T06:47:08.919+0000] {logging_mixin.py:190} INFO - Failure caused by (psycopg2.errors.UndefinedColumn) column "generation_MWh" of relation "eng_gen_2024" does not exist
+LINE 1: ... INTO eng_gen_2024 (period, fueltype, respondent, "generatio...
+                                                             ^
+
+[SQL: INSERT INTO eng_gen_2024 (period, fueltype, respondent, "generation_MWh", co2_emission_tons, co2_reduction_tons) VALUES (%(period)s, %(fueltype)s, %(respondent)s, %(generation_MWh)s, %(co2_emission_tons)s, %(co2_reduction_tons)s)]
+[parameters: ({'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'FLA', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'GVL', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'US48', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'US48', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}  ... displaying 10 of 15255 total bound parameter sets ...  {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'OIL', 'respondent': 'NWMT', 'generation_MWh': 561, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'SUN', 'respondent': 'NWMT', 'generation_MWh': 1388, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 815.3111999999999})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2024-10-14T06:47:08.920+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=PIPELINE, task_id=TRANSFORM, run_id=manual__2024-10-14T06:46:05.546846+00:00, execution_date=20241014T064605, start_date=20241014T064703, end_date=20241014T064708
+[2024-10-14T06:47:08.954+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-14T06:47:08.956+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 8 for task TRANSFORM ((psycopg2.errors.UndefinedColumn) column "generation_MWh" of relation "eng_gen_2024" does not exist
+LINE 1: ... INTO eng_gen_2024 (period, fueltype, respondent, "generatio...
+                                                             ^
+
+[SQL: INSERT INTO eng_gen_2024 (period, fueltype, respondent, "generation_MWh", co2_emission_tons, co2_reduction_tons) VALUES (%(period)s, %(fueltype)s, %(respondent)s, %(generation_MWh)s, %(co2_emission_tons)s, %(co2_reduction_tons)s)]
+[parameters: ({'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'FLA', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'GVL', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'US48', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'US48', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}  ... displaying 10 of 15255 total bound parameter sets ...  {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'OIL', 'respondent': 'NWMT', 'generation_MWh': 561, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'SUN', 'respondent': 'NWMT', 'generation_MWh': 1388, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 815.3111999999999})]
+(Background on this error at: https://sqlalche.me/e/14/f405); 319)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.UndefinedColumn: column "generation_MWh" of relation "eng_gen_2024" does not exist
+LINE 1: ... INTO eng_gen_2024 (period, fueltype, respondent, "generatio...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/pipeline_dag.py", line 129, in TRANSFORM
+    df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/util/_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/generic.py", line 3008, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 788, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1958, in to_sql
+    total_inserted = sql_engine.insert_records(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1507, in insert_records
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1498, in insert_records
+    return table.insert(chunksize=chunksize, method=method)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1059, in insert
+    num_inserted = exec_insert(conn, keys, chunk_iter)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 951, in _execute_insert
+    result = conn.execute(self.table.insert(), data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "generation_MWh" of relation "eng_gen_2024" does not exist
+LINE 1: ... INTO eng_gen_2024 (period, fueltype, respondent, "generatio...
+                                                             ^
+
+[SQL: INSERT INTO eng_gen_2024 (period, fueltype, respondent, "generation_MWh", co2_emission_tons, co2_reduction_tons) VALUES (%(period)s, %(fueltype)s, %(respondent)s, %(generation_MWh)s, %(co2_emission_tons)s, %(co2_reduction_tons)s)]
+[parameters: ({'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'FLA', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'FLA', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'GVL', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'OTH', 'respondent': 'GVL', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'COL', 'respondent': 'US48', 'generation_MWh': 0, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 10, 14, 0, 0), 'fueltype': 'NG', 'respondent': 'US48', 'generation_MWh': 4947, 'co2_emission_tons': 2077.74, 'co2_reduction_tons': 0.0}  ... displaying 10 of 15255 total bound parameter sets ...  {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'OIL', 'respondent': 'NWMT', 'generation_MWh': 561, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 0.0}, {'period': datetime.datetime(2024, 9, 30, 0, 0), 'fueltype': 'SUN', 'respondent': 'NWMT', 'generation_MWh': 1388, 'co2_emission_tons': 0.0, 'co2_reduction_tons': 815.3111999999999})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2024-10-14T06:47:09.001+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2024-10-14T06:47:09.024+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-10-14T06:47:09.030+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

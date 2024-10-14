@@ -1,0 +1,33 @@
+[2024-10-04T07:31:30.348+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-04T07:31:30.382+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: hello_world_dag.print_hello_world scheduled__2024-10-03T00:00:00+00:00 [queued]>
+[2024-10-04T07:31:30.393+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: hello_world_dag.print_hello_world scheduled__2024-10-03T00:00:00+00:00 [queued]>
+[2024-10-04T07:31:30.395+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-04T07:31:30.419+0000] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): print_hello_world> on 2024-10-03 00:00:00+00:00
+[2024-10-04T07:31:30.444+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'hello_world_dag', 'print_hello_world', 'scheduled__2024-10-03T00:00:00+00:00', '--job-id', '3', '--raw', '--subdir', 'DAGS_FOLDER/sample-test.py', '--cfg-path', '/tmp/tmpj94ahsoo']
+[2024-10-04T07:31:30.438+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=95) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-04T07:31:30.455+0000] {standard_task_runner.py:105} INFO - Job 3: Subtask print_hello_world
+[2024-10-04T07:31:30.456+0000] {standard_task_runner.py:72} INFO - Started process 99 to run task
+[2024-10-04T07:31:30.771+0000] {task_command.py:467} INFO - Running <TaskInstance: hello_world_dag.print_hello_world scheduled__2024-10-03T00:00:00+00:00 [running]> on host de94bcea4b73
+[2024-10-04T07:31:31.022+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='hello_world_dag' AIRFLOW_CTX_TASK_ID='print_hello_world' AIRFLOW_CTX_EXECUTION_DATE='2024-10-03T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-10-03T00:00:00+00:00'
+[2024-10-04T07:31:31.040+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-10-04T07:31:31.041+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-10-04T07:31:31.042+0000] {logging_mixin.py:190} INFO - Current task name:print_hello_world state:running start_date:2024-10-04 07:31:30.383614+00:00
+[2024-10-04T07:31:31.043+0000] {logging_mixin.py:190} INFO - Dag name:hello_world_dag and current dag run status:running
+[2024-10-04T07:31:31.046+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-04T07:31:31.232+0000] {logging_mixin.py:190} INFO -   Name  Age
+0    1    1
+1    2    2
+2    3    3
+[2024-10-04T07:31:31.235+0000] {logging_mixin.py:190} INFO - Hello, World!
+[2024-10-04T07:31:31.237+0000] {python.py:240} INFO - Done. Returned value was: None
+[2024-10-04T07:31:31.314+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-04T07:31:31.315+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=hello_world_dag, task_id=print_hello_world, run_id=scheduled__2024-10-03T00:00:00+00:00, execution_date=20241003T000000, start_date=20241004T073130, end_date=20241004T073131
+[2024-10-04T07:31:31.330+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2024-10-04T07:31:31.332+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2024-10-04T07:31:31.332+0000] {logging_mixin.py:190} INFO - Dag name:hello_world_dag queued_at:2024-10-04 07:31:17.552438+00:00
+[2024-10-04T07:31:31.333+0000] {logging_mixin.py:190} INFO - Task hostname:de94bcea4b73 operator:PythonOperator
+[2024-10-04T07:31:31.383+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-10-04T07:31:31.437+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-10-04T07:31:31.515+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
