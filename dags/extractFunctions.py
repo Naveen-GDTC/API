@@ -12,7 +12,6 @@ def create_chunks(total): # E
     return chunks
 
 def thread_executor(en,offsets,apiUrl,params,table_name,requiredCol,repColNameWith,db_lock=threading.Lock()): # E
-    print(f'requiredCol : {requiredCol}')
     with F.ThreadPoolExecutor(max_workers=10) as executor:
         future_to_offset = {}
         
@@ -44,7 +43,6 @@ def thread_executor(en,offsets,apiUrl,params,table_name,requiredCol,repColNameWi
 
 
 def apiToPostgres(list_praser,en,apiUrl,params,table_name,requiredCol,repColNameWith):
-    print(f'requiredCol : {requiredCol}')
     for i in range(len(list_praser)-1):
         offsets = range(list_praser[i], list_praser[i+1], 5000)
         thread_executor(en,offsets,apiUrl,params,table_name,requiredCol,repColNameWith)

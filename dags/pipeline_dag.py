@@ -43,7 +43,8 @@ def TRANSFORM():
     print(years)
     for year in years:
         df = eng_gen[eng_gen['period'].dt.year == year]
-        df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
+        print(year)
+        # df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
 
 
 default_args = {
