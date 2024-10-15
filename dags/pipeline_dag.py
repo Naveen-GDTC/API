@@ -27,9 +27,10 @@ def EXTRACT():
 
 
 def TRANSFORM():
-    co2_emi = tF.base_transform(tables[0],engine)
-    eng_gen = tF.base_transform(tables[1],engine)
-    Ren_cap = tF.base_transform(tables[2],engine)
+    
+    co2_emi = tF.baseTransform(tables[0],engine)
+    eng_gen = tF.baseTransform(tables[1],engine)
+    Ren_cap = tF.baseTransform(tables[2],engine)
         
     
     WAEF = tF.WAEF_cal(eng_gen)
@@ -39,6 +40,7 @@ def TRANSFORM():
     eng_gen['co2_reduction_tons']= eng_gen.apply(tF.co2_reduction_cal,axis=1,multiplier=WAEF)
 
     years = list(eng_gen['period'].dt.year.unique())
+    print(years)
     for year in years:
         df = eng_gen[eng_gen['period'].dt.year == year]
         df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
@@ -72,18 +74,18 @@ with F.DAG(
     engine = F.create_engine(f"postgresql+psycopg2://{location['POST_USER']}:{location['POST_PASS']}@{location['HOST']}:{location['PORT']}/{location['DB']}")
     engine_sink = F.create_engine(f"postgresql+psycopg2://{location['POST_USER']}:{location['POST_PASS']}@{location['HOST']}:{location['PORT']}/{location['DB_SINK']}")
     
-    tables = ['co2_emi_api','eng_gen_api','Ren_cap_api']
+    tables = aU.TABLES
     
     EXTRACT_API_DATA = F.PythonOperator(
         task_id='EXTRACT',      
         python_callable=EXTRACT,      
     )
 
-    # TRANSFORM_DATA = F.PythonOperator(
-    #     task_id='TRANSFORM',      
-    #     python_callable=TRANSFORM,      
-    # )
+    TRANSFORM_DATA = F.PythonOperator(
+        task_id='TRANSFORM',      
+        python_callable=TRANSFORM,      
+    )
 
 
-    # TRANSFORM_DATA
-    EXTRACT_API_DATA #>> TRANSFORM_DATA
+
+    EXTRACT_API_DATA >> TRANSFORM_DATA
