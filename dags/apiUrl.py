@@ -17,5 +17,5 @@ APIS = {
     TABLES[2]: 
         [f"{base_url}international/data/?frequency=annual&facets[activityId][]=12&facets[activityId][]=7&facets[productId][]=29&facets[countryRegionId][]=USA",
          ['period','countryRegionId','productName','value'],
-         'CO2_Emission_MK']
+         'Generation_MK']
 }
