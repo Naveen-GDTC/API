@@ -13,11 +13,14 @@ def EXTRACT():
             'api_key': location['API_KEY'] 
         }
 
-        #Getting the total records
         params['offset'] = 0
-        response = F.requests.get(req[0], params=params)
-        json_data = response.json()
-        total_record = int(json_data['response']['total'])
+        total_record = 0
+        while total_record==0:
+            print('trying to fetch total_record')
+            response = F.requests.get(req[0], params=params)
+            json_data = response.json()
+            total_record = int(json_data['response']['total'])
+            print(total_record)
 
         list_praser = eF.create_chunks(total_record)
         reqCol = req[1]
@@ -25,9 +28,7 @@ def EXTRACT():
         eF.apiToPostgres(list_praser,engine,req[0],params,table_name,reqCol,repColNameWith)
 
 
-
-def TRANSFORM():
-    
+def TRANSFORM(): 
     co2_emi = tF.baseTransform(tables[0],engine)
     eng_gen = tF.baseTransform(tables[1],engine)
     Ren_cap = tF.baseTransform(tables[2],engine)
@@ -44,7 +45,7 @@ def TRANSFORM():
     for year in years:
         df = eng_gen[eng_gen['period'].dt.year == year]
         print(year)
-        # df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
+        df.to_sql(f'eng_gen_{year}' , engine_sink, if_exists='append', index=False)
 
 
 default_args = {
