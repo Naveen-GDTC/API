@@ -2,6 +2,18 @@ import functions as F
 import threading
 
 def create_chunks(total): # E
+    """
+    Creates a list of chunk boundaries for splitting a total into smaller 
+    segments.
+
+    Parameters:
+    - total (int): The total number that needs to be divided into chunks.
+
+    Returns:
+    - list: A list of integers representing the boundaries of each chunk, 
+      starting from 0 and ending with the total. The default chunk size is 
+      set to 1,000,000.
+    """
     chunks = [0]
     chunk_size = 1000000 
     for i in range(chunk_size, total + 1, chunk_size):
@@ -14,6 +26,25 @@ def create_chunks(total): # E
 
 
 def thread_executor(en,offsets,apiUrl,params_template,table_name,requiredCol,repColNameWith,db_lock=threading.Lock()): # E
+    """
+    Executes API requests in parallel using a thread pool and inserts the 
+    retrieved data into a PostgreSQL database.
+
+    Parameters:
+    - en: The SQLAlchemy engine object used to connect to the PostgreSQL database.
+    - offsets (range): A range of offsets for pagination in API requests.
+    - apiUrl (str): The URL of the API to fetch data from.
+    - params_template (dict): A dictionary template of parameters for the API request.
+    - table_name (str): The name of the table in the PostgreSQL database where 
+      the data will be inserted.
+    - requiredCol (list): A list of columns to extract from the API response.
+    - repColNameWith (str): The new name for the 'value' column in the DataFrame.
+    - db_lock (threading.Lock): A lock to ensure thread-safe database operations.
+
+    Note:
+    - The function employs a sleep mechanism to manage the request rate to 
+      avoid overloading the API.
+    """
     with F.ThreadPoolExecutor(max_workers=5) as executor:
         future_to_offset = {}
         
@@ -49,6 +80,19 @@ def thread_executor(en,offsets,apiUrl,params_template,table_name,requiredCol,rep
 
 
 def apiToPostgres(list_praser,en,apiUrl,params,table_name,requiredCol,repColNameWith):
+    """
+    Fetches data from an API in batches and inserts it into a PostgreSQL database.
+
+    Parameters:
+    - list_praser (list): A list of integers defining the start and end points.
+    - en: The SQLAlchemy engine object used to connect to the PostgreSQL database.
+    - apiUrl (str): The URL of the API from which data will be fetched.
+    - params (dict): A dictionary of parameters to be included in the API request.
+    - table_name (str): The name of the table in the PostgreSQL database where 
+      the data will be inserted.
+    - requiredCol (list): A list of columns that are required for insertion.
+    - repColNameWith (dict): To replace the "value" column with desried name e.g."Generation_MWh" 
+    """
     for i in range(len(list_praser)-1):
         offsets = range(list_praser[i], list_praser[i+1], 5000)
         thread_executor(en,offsets,apiUrl,params,table_name,requiredCol,repColNameWith)
