@@ -15,7 +15,7 @@ APIS = {
          'generation_MWh'],
 
     TABLES[2]: 
-        [f"{base_url}international/data/?frequency=annual&facets[activityId][]=12&facets[activityId][]=7&facets[productId][]=29&facets[countryRegionId][]=USA",
+        [f"{base_url}international/data/?frequency=annual&facets[activityId][]=7&facets[productId][]=116&facets[productId][]=29&facets[productId][]=33&facets[productId][]=37&facets[countryRegionId][]=USA",
          ['period','countryRegionId','productName','value'],
          'Generation_MK']
 }
