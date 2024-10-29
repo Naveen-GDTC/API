@@ -1,29 +1,37 @@
 import functions as F
 import threading
 
-def create_chunks(total): # E
+def create_chunks(total,offset): # E
     """
     Creates a list of chunk boundaries for splitting a total into smaller 
     segments.
 
     Parameters:
     - total (int): The total number that needs to be divided into chunks.
+    - offset (int): existing number of records.
 
     Returns:
     - list: A list of integers representing the boundaries of each chunk, 
       starting from 0 and ending with the total. The default chunk size is 
       set to 1,000,000.
     """
-    chunks = [0]
+    chunks = []
     chunk_size = 1000000 
-    for i in range(chunk_size, total + 1, chunk_size):
+    for i in range(offset, total + 1, chunk_size):
         chunks.append(i)
     if total not in chunks:
         chunks.append(total)
         
     return chunks
 
-
+def IF_EXISTS(tableName,engine):
+    try:
+        query = f'SELECT count(*) FROM "{tableName}";'  
+        df = F.pd.read_sql(query, engine)
+        print(f"present records count {df.iloc[0,0]}")
+        return df.iloc[0,0]
+    except Exception as e:
+        return 0
 
 def thread_executor(en,offsets,apiUrl,params_template,table_name,requiredCol,repColNameWith,db_lock=threading.Lock()): # E
     """
@@ -53,6 +61,7 @@ def thread_executor(en,offsets,apiUrl,params_template,table_name,requiredCol,rep
             params['offset'] = offset
             future = executor.submit(F.requests.get, apiUrl, params)
             future_to_offset[future] = offset
+            F.time.sleep(0.2)
 
         for future in F.as_completed(future_to_offset):
             offset = future_to_offset[future]
@@ -68,14 +77,14 @@ def thread_executor(en,offsets,apiUrl,params_template,table_name,requiredCol,rep
 
                 with db_lock:
                     df.to_sql(table_name, en, if_exists='append', index=False)
-                    F.time.sleep(1)
+                    F.time.sleep(0.2 )
                     print(f"Data loaded successfully for {table_name} with offset {offset}")
 
             except Exception as e:
-                error_message = str(e)
-                df = F.pd.DataFrame({'table': [table_name], 'offset': [offset], 'error': [error_message]})
+                # error_message = str(e)
+                df = F.pd.DataFrame({'table': [table_name], 'offset': [offset], 'error': [response.status_code]})
                 df.to_sql('Failed_import_api', en, if_exists='append', index=False)
-                print(f"An error occurred for {table_name} at Offset {offset}: {error_message}")
+                print(f"An error occurred for {table_name} at Offset {offset}: {response.status_code}")
 
 
 

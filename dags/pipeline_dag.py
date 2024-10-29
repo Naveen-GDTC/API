@@ -2,30 +2,29 @@ import functions as F
 import extractFunctions as eF
 import transformFunctions as tF
 import apiUrl as aU
-    
+        
 
 def EXTRACT():
     for table_name, req  in aU.APIS.items():
         print(table_name)
-        params = {
-            'data[0]':'value',
-            'length': 5000,
-            'api_key': location['API_KEY'] 
-        }
+        params = req[3]
+        offset = eF.IF_EXISTS(table_name,engine)
 
-        params['offset'] = 0
-        total_record = 0
-        while total_record==0:
-            print('trying to fetch total_record')
-            response = F.requests.get(req[0], params=params)
-            json_data = response.json()
-            total_record = int(json_data['response']['total'])
-            print(total_record)
+        params['api_key'] = location['API_KEY']
+        params['offset'] = offset
 
-        list_praser = eF.create_chunks(total_record)
-        reqCol = req[1]
-        repColNameWith = req[2]
-        eF.apiToPostgres(list_praser,engine,req[0],params,table_name,reqCol,repColNameWith)
+        response = F.requests.get(req[0], params=params)
+        json_data = response.json()
+        total_record = int(json_data['response']['total'])
+        print(total_record)
+
+        list_praser = eF.create_chunks(total_record,offset)
+        if len(list_praser) > 1:
+            reqCol = req[1]
+            repColNameWith = req[2]
+            eF.apiToPostgres(list_praser,engine,req[0],params,table_name,reqCol,repColNameWith)
+        else:
+            print("No new records were discovered.")
 
 
 def TRANSFORM(): 
